@@ -11,7 +11,7 @@
 #include <iterator>
 #include <thread>
 using namespace yarp::dev;
-using namespace yarp::math;
+using namespace yarp_addons;
 using namespace yarp::sig;
 using namespace std;
 
@@ -19,8 +19,8 @@ using namespace std;
 FrameTransform operator*(const FrameTransform& l, const FrameTransform& r)
 {
     FrameTransform ret;
-    ret.dst_frame_id = l.dst_frame_id;
-    ret.src_frame_id = r.src_frame_id;
+    ret.frameId = l.frameId;
+    ret.parentFrame = r.parentFrame;
     ret.fromMatrix(l.toMatrix() * r.toMatrix());
     return ret;
 }
@@ -334,7 +334,7 @@ IFrameSource::Result<Vector> ImplementIFrameSource::transformPose(const string &
     return { true, IFrameSource::OK, transformed_pose };
 }
 
-IFrameSource::Result<Quaternion> ImplementIFrameSource::transformQuaternion(const string &target_frame_id, const string &source_frame_id, const Quaternion &input_quaternion, double timestamp)
+IFrameSource::Result<yarp::math::Quaternion> ImplementIFrameSource::transformQuaternion(const string &target_frame_id, const string &source_frame_id, const yarp::math::Quaternion &input_quaternion, double timestamp)
 {
     yarp::math::Quaternion transformed_quaternion;
     auto ret = getTransform(target_frame_id, source_frame_id);

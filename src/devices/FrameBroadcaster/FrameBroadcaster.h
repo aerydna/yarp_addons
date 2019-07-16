@@ -11,7 +11,7 @@
 constexpr double defaultThreadPeriod = 0.010; //s
 #include <yarp/os/PeriodicThread.h>
 #include <yarp/dev/DeviceDriver.h>
-#include <yarp/dev/IFrameSource.h>
+#include <IFrameSource.h>
 #include <yarp/rosmsg/tf2_msgs/TFMessage.h>
 #include <yarp/dev/IFrameSet.h>
 #include <yarp/dev/Wrapper.h>
@@ -46,7 +46,7 @@ class yarp::dev::FrameBroadcaster : public yarp::dev::IFrameSet,
     std::string                             m_name;
     bool                                    shouldClose{false};
     std::mutex                              portMutex;
-    std::vector<yarp::math::FrameTransform> internalFrames;
+    std::vector<yarp_addons::FrameTransform> internalFrames;
     bool                                    eventBased{false};
     std::unique_ptr<yarp::os::Node>         n;
     yarp::os::Publisher<yarp::rosmsg::tf2_msgs::TFMessage> port;
@@ -73,8 +73,8 @@ public:
     void run() override;
 
     virtual bool clear () override;
-    virtual bool setTransform (const yarp::math::FrameTransform& frame) override;
-    virtual void setTransforms (const std::vector<yarp::math::FrameTransform>& frames, bool append = false) override;
+    virtual bool setTransform (const yarp_addons::FrameTransform& frame) override;
+    virtual void setTransforms (const std::vector<yarp_addons::FrameTransform>& frames, bool append = false) override;
     virtual bool deleteTransform (const std::string &frame_id) override;
 
 

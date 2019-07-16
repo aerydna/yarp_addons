@@ -1,0 +1,17 @@
+find_package(YCM)
+add_subdirectory(FrameBroadcaster)
+add_subdirectory(FrameReceiver)
+find_package(GLEW REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(LibOVR REQUIRED)
+
+option(COMPILE_OVRDEVICE OFF)
+if(${COMPILE_OVRDEVICE})
+    add_subdirectory(ovrheadset)
+endif()
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/yarp-vicon-bridge)
+find_package(ViconSDK)
+if(ViconSDK_FOUND)
+    add_subdirectory(yarp-vicon-bridge)
+endif()

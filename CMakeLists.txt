@@ -4,6 +4,8 @@ project(AerydnaYarpAddons
         LANGUAGES CXX C
         VERSION 0.0.0.0)
 
+set(CXX_STANDARD 14)
+
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
 endif()
@@ -11,19 +13,21 @@ endif()
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" ON)
 
-find_package(YARP REQUIRED COMPONENTS dev OS math)
+find_package(YARP REQUIRED COMPONENTS dev OS math conf rosmsg)
 find_package(YCM REQUIRED)
-
+include_directories(src/)
 set(HDRs src/IFrameSet.h
          src/IFrameSource.h
          src/FrameTransform.h
-         src/api.h)
+         src/yarp_addons_api.h)
 set(CPPs src/ImplementIFrameSource.cpp)
 
-add_library(${PROJECT_NAME} ${CPPs})
-target_link_libraries(${PROJECT_NAME} YARP::YARP_OS YARP::YARP_dev YARP::YARP_math YARP::YARP_init)
-target_compile_definitions(${PROJECT_NAME} PRIVATE YARP_ADDONS_EXPORTS)
 
+add_library(${PROJECT_NAME} ${CPPs})
+target_link_libraries(${PROJECT_NAME} YARP::YARP_OS YARP::YARP_dev YARP::YARP_math YARP::YARP_init YARP::YARP_conf)
+target_include_directories(${PROJECT_NAME} PRIVATE src/)
+target_compile_definitions(${PROJECT_NAME} PRIVATE YARP_ADDONS_EXPORTS)
+add_subdirectory(src/devices)
 install(TARGETS ${PROJECT_NAME}
         EXPORT  ${PROJECT_NAME}
         LIBRARY       DESTINATION "${CMAKE_INSTALL_LIBDIR}"                            COMPONENT shlib

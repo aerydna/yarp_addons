@@ -13,7 +13,7 @@
 #include <map>
 #include <vector>
 #include <functional>
-#include "api.h"
+#include "yarp_addons_api.h"
 #include "IFrameSet.h" // <---useless include.. but without it IFrameSet doesn't export his symbol. to investigate
 #include <yarp/math/Quaternion.h>
 #include "FrameTransform.h"
@@ -26,6 +26,8 @@ class IFrameSource;
 class ImplementIFrameSource;
 }
 }
+
+
 
 class YARP_ADDONS_API yarp::dev::IFrameSource
 {
@@ -116,7 +118,7 @@ public:
     Gets a vector containing all the registered frames.
     * @return the vector
     */
-    virtual std::vector<yarp::math::FrameTransform> getAllFrames() = 0;
+    virtual std::vector<yarp_addons::FrameTransform> getAllFrames() = 0;
 
     /**
      Get the parent of a frame.
@@ -132,7 +134,7 @@ public:
     * @param time point in which retrieve the data (if minor than 0 the last data will be used)
     * @return a valid outcome will contain the frameTransform. if a frame doesn't exist or the frame are not connected an invalid outcome should be returned
     */
-    virtual Result<yarp::math::FrameTransform> getTransform(const std::string &target_frame_id, const std::string &source_frame_id, double timestamp = -1) = 0;
+    virtual Result<yarp_addons::FrameTransform> getTransform(const std::string &target_frame_id, const std::string &source_frame_id, double timestamp = -1) = 0;
 
     /**
     Transform a point into the target frame.
@@ -171,7 +173,7 @@ public:
     * @param timeout (in seconds) to wait for
     * @return the frameTransform
     */
-    virtual Result<yarp::math::FrameTransform> waitForTransform(const std::string &target_frame_id, const std::string &source_frame_id, const double &timeout) = 0;
+    virtual Result<yarp_addons::FrameTransform> waitForTransform(const std::string &target_frame_id, const std::string &source_frame_id, const double &timeout) = 0;
 
 };
 
@@ -187,26 +189,26 @@ protected:
     
     class FrameEditor
     {
-        std::map<std::string, yarp::math::FrameTransform> storage;
-        yarp::math::FrameTransform nullframe;
+        std::map<std::string, yarp_addons::FrameTransform> storage;
+        yarp_addons::FrameTransform nullframe;
 
     public:
 #if (defined _WIN32 && _MSC_VER < 1910) || (!defined _WIN32 && __cplusplus < 201402L)
-        const std::map<std::string, yarp::math::FrameTransform>::const_iterator begin() const { return storage.begin(); }
-        const std::map<std::string, yarp::math::FrameTransform>::const_iterator end() const { return storage.end(); }
+        const std::map<std::string, yarp_addons::FrameTransform>::const_iterator begin() const { return storage.begin(); }
+        const std::map<std::string, yarp_addons::FrameTransform>::const_iterator end() const { return storage.end(); }
         const size_t erase(const std::string& k) { return storage.erase(k); }
 #else
         const auto begin() const { return storage.begin(); }
         const auto end() const { return storage.end(); }
         const auto erase(const std::string& k) { return storage.erase(k); }
 #endif
-        bool insertUpdate(const yarp::math::FrameTransform& frame)
+        bool insertUpdate(const yarp_addons::FrameTransform& frame)
         {
             storage[frame.frameId] = frame;
             return true;
         }
 
-        Result<yarp::math::FrameTransform> get(const std::string& frameid)
+        Result<yarp_addons::FrameTransform> get(const std::string& frameid)
         {
             if (storage.find(frameid) == storage.end())
             {
@@ -269,7 +271,7 @@ private:
     bool                frameExistsRaw(const std::string &frame_id);
     Result<std::string> getParentRaw(const std::string& frame_id);
 
-    Result<yarp::math::FrameTransform> getChainedTransform(const std::string& target_frame_id, const std::string& source_frame_id);
+    Result<yarp_addons::FrameTransform> getChainedTransform(const std::string& target_frame_id, const std::string& source_frame_id);
 
 public:
     virtual ~ImplementIFrameSource();
@@ -281,13 +283,13 @@ public:
     virtual Result<bool> canTransform(const std::string &target_frame, const std::string &source_frame) override;
     virtual bool frameExists(const std::string &frame_id) override;
     virtual std::unordered_set<std::string> getAllFrameIds() override;
-    virtual std::vector<yarp::math::FrameTransform> getAllFrames() override;
+    virtual std::vector<yarp_addons::FrameTransform> getAllFrames() override;
     virtual Result<std::string> getParent(const std::string& frame_id) override;
-    virtual Result<yarp::math::FrameTransform> getTransform(const std::string &target_frame_id, const std::string &source_frame_id, double timestamp = -1) override;
+    virtual Result<yarp_addons::FrameTransform> getTransform(const std::string &target_frame_id, const std::string &source_frame_id, double timestamp = -1) override;
     virtual Result<yarp::sig::Vector> transformPoint(const std::string &target_frame_id, const std::string &source_frame_id, const yarp::sig::Vector &input_point, double timestamp = -1) override;
     virtual Result<yarp::sig::Vector> transformPose(const std::string &target_frame_id, const std::string &source_frame_id, const yarp::sig::Vector &input_pose, double timestamp = -1) override;
     virtual Result<yarp::math::Quaternion> transformQuaternion(const std::string &target_frame_id, const std::string &source_frame_id, const yarp::math::Quaternion &input_quaternion, double timestamp = -1) override;
-    virtual Result<yarp::math::FrameTransform> waitForTransform(const std::string &target_frame_id, const std::string &source_frame_id, const double &timeout) override;
+    virtual Result<yarp_addons::FrameTransform> waitForTransform(const std::string &target_frame_id, const std::string &source_frame_id, const double &timeout) override;
 };
 
 #endif //YARP_DEV_IFRAMESOURCE_H

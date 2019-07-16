@@ -6,28 +6,24 @@
  * BSD-3-Clause license. See the accompanying LICENSE file for details.
  */
 
-#ifndef YARP_MATH_TRANSFORM_H
-#define YARP_MATH_TRANSFORM_H
+#ifndef YARP_ADDONS_TRANSFORM_H
+#define YARP_ADDONS_TRANSFORM_H
 
 #include <yarp/sig/Vector.h>
 #include <yarp/sig/Matrix.h>
-#include "api.h"
 #include <yarp/math/Math.h>
 #include <yarp/math/Quaternion.h>
+#include <string>
 
-namespace yarp
-{
-namespace math
+namespace yarp_addons
 {
 
-class YARP_ADDONS_API FrameTransform
+class FrameTransform
 {
 public:
 
     std::string parentFrame;
     std::string frameId;
-    YARP_DEPRECATED_MSG("use parentFrame and frameId instead") std::string src_frame_id;
-    YARP_DEPRECATED_MSG("use parentFrame and frameId instead") std::string dst_frame_id;
     double      timestamp{ 0 };
 
     struct Translation_t
@@ -42,9 +38,10 @@ public:
             tY = y;
             tZ = z;
         }
+        std::string toString() const { return std::to_string(tX) + " " + std::to_string(tX) + " " + std::to_string(tX); }
     } translation;
 
-    Quaternion rotation;
+    yarp::math::Quaternion rotation;
 
     FrameTransform()
     {
@@ -75,8 +72,6 @@ public:
         ) : parentFrame(parent),
             frameId(child)
     {
-        src_frame_id = parent;
-        dst_frame_id = child;
         translation.set(inTX, inTY, inTZ);
         rotation.w() = inRW;
         rotation.x() = inRX;
@@ -98,7 +93,7 @@ public:
         yarp::sig::Vector    rotV;
         yarp::sig::Matrix    rotM;
         rotV = yarp::sig::Vector(i, rot);
-        rotM = rpy2dcm(rotV);
+        rotM = yarp::math::rpy2dcm(rotV);
         rotation.fromRotationMatrix(rotM);
     }
 
@@ -107,7 +102,7 @@ public:
         yarp::sig::Vector rotV;
         yarp::sig::Matrix rotM;
         rotM = rotation.toRotationMatrix4x4();
-        rotV = dcm2rpy(rotM);
+        rotV = yarp::math::dcm2rpy(rotM);
         return rotV;
     }
 
@@ -142,22 +137,11 @@ public:
 
     std::string toString() const
     {
-        char buff[1024];
-        sprintf(buff, "%s -> %s \n tran: %f %f %f \n rot: %f %f %f %f \n\n",
-            src_frame_id.c_str(),
-            dst_frame_id.c_str(),
-            translation.tX,
-            translation.tY,
-            translation.tZ,
-            rotation.x(),
-            rotation.y(),
-            rotation.z(),
-            rotation.w());
-        return std::string(buff);
+        auto s = frameId + " ->" + parentFrame + " \n tran: " + translation.toString() + "\n rot: " + rotation.toString() + " \n\n";
+        return s;
 }
 };
 
-}
 }
 #endif
 

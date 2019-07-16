@@ -18,7 +18,7 @@ using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::rosmsg::tf2_msgs;
 
-inline void BottleaddFrame(TFMessage& b, const yarp::math::FrameTransform& frame)
+inline void BottleaddFrame(TFMessage& b, const yarp_addons::FrameTransform& frame)
 {
 
     yarp::rosmsg::geometry_msgs::TransformStamped submsg;
@@ -36,8 +36,8 @@ inline void BottleaddFrame(TFMessage& b, const yarp::math::FrameTransform& frame
     b.transforms.push_back(submsg);
 }
 
-inline void sendFrameContainer(yarp::os::Publisher<TFMessage>& port, const std::vector<yarp::math::FrameTransform>& frames)
-//inline void sendFrameContainer(yarp::os::BufferedPort<TFMessage>& port, const std::vector<yarp::math::FrameTransform>& frames)
+inline void sendFrameContainer(yarp::os::Publisher<TFMessage>& port, const std::vector<yarp_addons::FrameTransform>& frames)
+//inline void sendFrameContainer(yarp::os::BufferedPort<TFMessage>& port, const std::vector<yarp_addons::FrameTransform>& frames)
 {
     auto& msg = port.prepare();
     msg.clear();
@@ -298,7 +298,7 @@ bool FrameBroadcaster::clear()
     return ret;
 }
 
-bool FrameBroadcaster::setTransform (const yarp::math::FrameTransform& frame)
+bool FrameBroadcaster::setTransform (const yarp_addons::FrameTransform& frame)
 {
     if (eventBased && !this->isRunning())
     {
@@ -333,7 +333,7 @@ bool FrameBroadcaster::setTransform (const yarp::math::FrameTransform& frame)
     return true;
 }
 
-void FrameBroadcaster::setTransforms(const std::vector<yarp::math::FrameTransform>& frames, bool append)
+void FrameBroadcaster::setTransforms(const std::vector<yarp_addons::FrameTransform>& frames, bool append)
 {
     if (eventBased && !this->isRunning())
     {

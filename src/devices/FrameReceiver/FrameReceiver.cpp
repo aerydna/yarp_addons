@@ -19,7 +19,7 @@ using namespace yarp::math;
 using namespace yarp::rosmsg::tf2_msgs;
 void PortCallback::onRead(TFMessage& msg)
 {
-    FrameTransform ft;
+    yarp_addons::FrameTransform ft;
     owner->cacheValid = false;
     fvecguard.lock();
     for(const auto& submsg : msg.transforms)

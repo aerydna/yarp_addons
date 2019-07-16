@@ -1,0 +1,68 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Visual Studio 16 2019 Win64",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "ENABLE_FrameBroadcaster",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "ENABLE_FrameReceiver",
+          "value": "True",
+          "type": "BOOL"
+        },
+        {
+          "name": "LibOVR_LibOVRKernel_LIBRARY_DEBUG",
+          "value": "C:/Users/aruzzenenti/source/OculusSDK/LibOVRKernel/Lib/Windows/x64/Debug/VS2015/LibOVRKernel.lib",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "LibOVR_LibOVRKernel_LIBRARY_RELEASE",
+          "value": "C:/Users/aruzzenenti/source/OculusSDK/LibOVRKernel/Lib/Windows/x64/Release/VS2015/LibOVRKernel.lib",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "ENABLE_newvicon",
+          "value": "true",
+          "type": "BOOL"
+        },
+        {
+          "name": "LibOVR_LibOVR_LIBRARY_DEBUG",
+          "value": "C:/Users/aruzzenenti/source/OculusSDK/LibOVR/Lib/Windows/x64/Debug/VS2015/LibOVR.lib",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "COMPILE_OVRDEVICE",
+          "value": "True",
+          "type": "BOOL"
+        }
+      ],
+      "cmakeToolchain": "C:/Users/aruzzenenti/source/vcpkg/scripts/buildsystems/vcpkg.cmake"
+    },
+    {
+      "name": "WSL-Debug",
+      "generator": "Unix Makefiles",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeExecutable": "/usr/bin/cmake",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "linux_x64" ],
+      "wslPath": "${defaultWSLPath}",
+      "addressSanitizerRuntimeFlags": "detect_leaks=0",
+      "variables": []
+    }
+  ]
+}

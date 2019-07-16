@@ -10,7 +10,7 @@
 #ifndef YARP_DEV_IFRAMESET_H
 #define YARP_DEV_IFRAMESET_H
 
-#include "api.h"
+#include "yarp_addons_api.h"
 #include "FrameTransform.h"
 #include <string>
 #include <vector>
@@ -37,14 +37,14 @@ public:
     * @param frame the FrameTransform to set.
     * @return false if the frame existed, true otherwise.
     */
-    virtual bool setTransform (const yarp::math::FrameTransform& frame) = 0;
+    virtual bool setTransform (const yarp_addons::FrameTransform& frame) = 0;
 
     /**
      Register multiple FrameTransforms.
     * @param frames the FrameTransform vector
     * @param append set it to true to append frames to previously created frames. WARNING no concistency check will be performed in this case.
     */
-    virtual void setTransforms (const std::vector<yarp::math::FrameTransform>& frames, bool append = false) = 0;
+    virtual void setTransforms (const std::vector<yarp_addons::FrameTransform>& frames, bool append = false) = 0;
 
     /**
      Deletes a transform between a frame and his parent.

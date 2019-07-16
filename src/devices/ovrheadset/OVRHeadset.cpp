@@ -43,6 +43,7 @@
 #include <unordered_map>
 #include <OVR_CAPI_Util.h>
 #include <OVR_Math.h>
+#include "../../FrameTransform.h"
 
 #if defined(_WIN32)
 #include <dxgi.h> // for GetDefaultAdapterLuid
@@ -65,8 +66,8 @@ YARP_CONSTEXPR unsigned int BUTTON_COUNT = 13;
  #define GLFW_EXPOSE_NATIVE_GLX
  #define OVR_OS_LINUX
 #endif
-#include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
+#include "glfw3.h"
+#include "glfw3native.h"
 
 #include <OVR_System.h>
 #include <OVR_CAPI_GL.h>
@@ -96,7 +97,7 @@ struct guiParam
 //----------------[utilities]
 
 using namespace yarp::math;
-void ovrposeToTf(yarp::math::FrameTransform& r, const ovrPosef l)
+void ovrposeToTf(yarp_addons::FrameTransform& r, const ovrPosef l)
 {
     r.translation.set(l.Position.x, l.Position.y, l.Position.z);
     r.rotation.w() = l.Orientation.w;
@@ -296,7 +297,7 @@ void yarp::dev::OVRHeadset::updateFrameContainer(FrameEditor& frameContainer)
     static bool inserted{ false };
     if (!inserted)
     {
-        FrameTransform f;
+        yarp_addons::FrameTransform f;
         f.parentFrame = rootFrame;
         for (auto& i : poses)
         {

@@ -10,7 +10,7 @@
 #define YARP_DEV_JOYPADCONTROLSERVER_FRAMERECEIVER_H
 #include <yarp/os/PeriodicThread.h>
 #include <yarp/dev/DeviceDriver.h>
-#include <yarp/dev/IFrameSource.h>
+#include <IFrameSource.h>
 #include <yarp/rosmsg/tf2_msgs/TFMessage.h>
 #include <yarp/dev/Wrapper.h>
 #include <yarp/dev/PolyDriver.h>
@@ -35,7 +35,7 @@ class yarp::dev::PortCallback : public yarp::os::TypedReaderCallback<yarp::rosms
 {
 public:
     FrameReceiver* owner{nullptr};
-    std::map<std::string, yarp::math::FrameTransform> fvec;
+    std::map<std::string, yarp_addons::FrameTransform> fvec;
     std::mutex fvecguard;
     void onRead(yarp::rosmsg::tf2_msgs::TFMessage& msg) override;
 };

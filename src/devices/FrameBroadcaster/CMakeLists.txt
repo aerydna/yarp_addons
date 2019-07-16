@@ -7,7 +7,8 @@
 yarp_prepare_plugin(FrameBroadcaster
                     CATEGORY device
                     TYPE yarp::dev::FrameBroadcaster
-                    INCLUDE FrameBroadcaster.h)
+                    INCLUDE FrameBroadcaster.h
+                    DEFAULT ON)
 
 if(ENABLE_FrameBroadcaster)
 
@@ -20,7 +21,8 @@ if(ENABLE_FrameBroadcaster)
                                                        YARP::YARP_sig
                                                        YARP::YARP_dev
                                                        YARP::YARP_math
-                                                       YARP_rosmsg)
+                                                       YARP::YARP_rosmsg
+                                                       AerydnaYarpAddons)
   list(APPEND YARP_${YARP_PLUGIN_MASTER}_PRIVATE_DEPS YARP_OS
                                                       YARP_sig
                                                       YARP_dev

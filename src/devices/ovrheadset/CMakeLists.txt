@@ -4,13 +4,14 @@
 # This software may be modified and distributed under the terms of the
 # BSD-3-Clause license. See the accompanying LICENSE file for details.
 
-yarp_prepare_plugin(ovrheadset
+yarp_prepare_plugin(oculusheadset
                     CATEGORY device
                     TYPE yarp::dev::OVRHeadset
-                    INCLUDE OVRHeadset.h
-                    DEPENDS "TARGET YARP::YARP_math;YARP_HAS_LibOVR;YARP_HAS_GLFW3;YARP_HAS_GLEW;YARP_HAS_OpenGL")
+                    INCLUDE OVRHeadset.h)
 
 if(NOT SKIP_ovrheadset)
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
   set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
   set(yarp_ovrheadset_SRCS OVRHeadset.cpp
@@ -48,26 +49,22 @@ if(NOT SKIP_ovrheadset)
   yarp_add_plugin(yarp_ovrheadset ${yarp_ovrheadset_SRCS}
                                   ${yarp_ovrheadset_HDRS})
 
+  target_include_directories(yarp_ovrheadset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libovr/include)
+  target_include_directories(yarp_ovrheadset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/glew/include)
+  target_include_directories(yarp_ovrheadset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/glfw3/include/GLFW)
+  target_include_directories(yarp_ovrheadset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libovr/include/extras)
+  target_include_directories(yarp_ovrheadset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libovr/include/kernel)
   target_link_libraries(yarp_ovrheadset PRIVATE YARP::YARP_OS
                                                 YARP::YARP_sig
                                                 YARP::YARP_dev
                                                 YARP::YARP_math)
+  target_link_libraries(yarp_ovrheadset PRIVATE AerydnaYarpAddons)
   list(APPEND YARP_${YARP_PLUGIN_MASTER}_PRIVATE_DEPS YARP_OS
                                                       YARP_sig
                                                       YARP_dev
                                                       YARP_math)
-
-  target_link_libraries(yarp_ovrheadset PRIVATE LibOVR::OVR)
-  list(APPEND YARP_${YARP_PLUGIN_MASTER}_PRIVATE_DEPS LibOVR)
-
-  target_link_libraries(yarp_ovrheadset PRIVATE GLEW::GLEW)
-  list(APPEND YARP_${YARP_PLUGIN_MASTER}_PRIVATE_DEPS GLEW)
-
-  target_link_libraries(yarp_ovrheadset PRIVATE GLFW3::GLFW3)
-  list(APPEND YARP_${YARP_PLUGIN_MASTER}_PRIVATE_DEPS GLFW3)
-
-  target_link_libraries(yarp_ovrheadset PRIVATE OpenGL::GL)
-  list(APPEND YARP_${YARP_PLUGIN_MASTER}_PRIVATE_DEPS OpenGL)
+  
+  
 
   yarp_install(TARGETS yarp_ovrheadset
                EXPORT YARP_${YARP_PLUGIN_MASTER}

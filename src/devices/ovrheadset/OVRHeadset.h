@@ -18,6 +18,15 @@
 
 #ifndef YARP_OVRHEADSET_OVRHEADSET_H
 #define YARP_OVRHEADSET_OVRHEADSET_H
+#pragma comment(lib, __FILE__"\\..\\glew\\lib\\Release\\x64\\glew32.lib")
+#pragma comment(lib, __FILE__"\\..\\glfw3\\lib-vc2019\\glfw3.lib")
+#pragma comment(lib, __FILE__"\\..\\libovr\\lib\\LibOVR.lib")
+
+#if _DEBUG
+#pragma comment(lib, __FILE__"\\..\\libovr\\lib\\Debug\\LibOVRKernel.lib")
+#else
+#pragma comment(lib, __FILE__"\\..\\libovr\\lib\\LibOVRKernel.lib")
+#endif
 
 #include "ImageType.h"
 
@@ -31,6 +40,7 @@
 #include <yarp/dev/IFrameTransform.h>
 #include <yarp/dev/PolyDriver.h>
 #include <yarp/sig/Image.h>
+
 
 #include <GL/glew.h>
 #include <OVR_CAPI.h>
