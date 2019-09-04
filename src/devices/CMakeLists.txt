@@ -1,9 +1,9 @@
 find_package(YCM)
 add_subdirectory(FrameBroadcaster)
 add_subdirectory(FrameReceiver)
-find_package(GLEW REQUIRED)
-find_package(glfw3 REQUIRED)
-find_package(LibOVR REQUIRED)
+find_package(GLEW)
+find_package(glfw3)
+find_package(LibOVR)
 
 option(COMPILE_OVRDEVICE OFF)
 if(${COMPILE_OVRDEVICE})
